@@ -1,0 +1,24 @@
+{
+  "name": "puppteer-velo-test-kit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wix-incubator/puppteer-velo-test-kit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wix-incubator/puppteer-velo-test-kit/issues"
+  },
+  "homepage": "https://github.com/wix-incubator/puppteer-velo-test-kit#readme",
+  "dependencies": {
+    "puppeteer": "^21.6.1",
+    "wix-preview-tester": "git+https://github.com/wix-incubator/wix-preview-tester.git"
+  }
+}
