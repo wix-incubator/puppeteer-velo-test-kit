@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/wix-incubator/puppteer-velo-test-kit#readme",
   "dependencies": {
-    "puppeteer": "^21.6.1",
     "wix-preview-tester": "git+https://github.com/wix-incubator/wix-preview-tester.git"
+  },
+  "peerDependencies": {
+    "puppeteer": "^21.6.1"
   }
 }
