@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { getTestsConfig } = require('wix-preview-tester');
+const { getTestsConfig, refreshTestsConfigs } = require('wix-preview-tester');
 
 const NAVIGATION_TIMEOUT = 30000;
 
@@ -17,20 +17,54 @@ class E2EDriver {
     /** @type {string} */
     baseUrl;
 
-    async init({ launchBrowser = true, baseUrl = '' }) {
+    async init({ baseUrl = '' }) {
         this.baseUrl = baseUrl;
-        this.#branchConfig = getTestsConfig();
-        const headless = this.isDebug() ? false : 'new';
-        if (launchBrowser) {
-            this.#browser = await puppeteer.launch({
-                headless,
-            });
-            this.page = await this.#browser.newPage();
-        }
+        await Promise.all([this.initBranchConfig(), this.initPuppeteer()])
     }
 
     isDebug() {
         return process.env.DEBUG === 'true';
+    }
+
+    async initPuppeteer() {
+        if (this.#browser) {
+            return;
+        }
+        const now = new Date();
+        console.log('⌛ Initializing puppeteer...');
+        this.#browser = await puppeteer.launch({ headless: this.isDebug() ? false : 'new' });
+        this.page = await this.#browser.newPage();
+        const end = new Date() - now;
+        console.log(`✅ Puppeteer initialized in ${end}ms`);
+    }
+
+    async initBranchConfig() {
+        if (this.#branchConfig) {
+            return;
+        }
+
+        const now = new Date();
+        const testsConfig = getTestsConfig();
+        const notExists = !testsConfig.branchId || !testsConfig.siteRevision;
+        if (notExists || this.isDebug()) {
+            try {
+                console.log('⌛ Refreshing tests configs...');
+                const newTestsConfig = await refreshTestsConfigs();
+                testsConfig.branchId = newTestsConfig.branchId;
+                testsConfig.siteRevision = newTestsConfig.siteRevision;
+                console.log('✅ Tests configs refreshed!');
+            } catch (e) {
+                console.error('❌ Failed to refresh tests configs', e);
+                throw e;
+            }
+        } else {
+            console.log(`✅ Using cached tests configs`);
+        }
+        this.#branchConfig = testsConfig;
+        console.log(`🌐 Branch ID: ${this.#branchConfig.branchId}`);
+        console.log(`🌐 Site Revision: ${this.#branchConfig.siteRevision}`);
+        const end = new Date() - now;
+        console.log(`✅ Branch config initialized in ${end}ms`);
     }
 
     async clean() {
@@ -48,10 +82,9 @@ class E2EDriver {
         */
         getUrlToOpen: (path, options = {}) => {
             const url = new URL(this.baseUrl);
-            const parsedURL = new URL(path, this.baseUrl);
+            const parsedURL = new URL((path === '' || path === '/') ? '' : path, this.baseUrl);
             url.pathname = parsedURL.pathname;
             url.search = parsedURL.search;
-            url.searchParams.set('isqa', 'true');
             const setWixPreviewQueryParameters = process.env.SET_WIX_PREVIEW_QUERY_PARAMETERS === 'true';
             if (setWixPreviewQueryParameters) {
                 url.searchParams.set('branchId', this.#branchConfig.branchId);
