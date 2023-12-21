@@ -9,8 +9,8 @@ This library was created for efficient E2E testing of sites using Velo. It enabl
 ## Requirements
 
 - Node.js V18
-- Install Wix CLI and login
-- Wix site with Git integration
+- Install [Wix CLI](https://dev.wix.com/docs/develop-websites/articles/workspace-tools/developer-tools/git-integration-wix-cli/working-with-the-wix-cli) and login
+- Wix site with [Git integration](https://dev.wix.com/docs/develop-websites/articles/workspace-tools/developer-tools/git-integration-wix-cli/integrating-your-site-with-git-hub)
 
 ## How to setup
 
@@ -34,7 +34,7 @@ After completing the installation, please add the following to the `scripts` sec
 "test-debug": "DEBUG=true jest"
 ```
 
-To generate test configuration files (wix-preview-tester.config.json) with your current local source code, run:
+To generate test configuration files (`wix-preview-tester.config.json`) with your current local source code, run:
 
 ```
 npm run refresh-test-configs
@@ -46,7 +46,7 @@ Execute tests by running:
 npm run test
 ```
 
-This uses the saved wix-preview-tester.config.json for testing.
+This uses the saved `wix-preview-tester.config.json` for testing.
 
 For debugging tests, run:
 
