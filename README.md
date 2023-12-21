@@ -113,6 +113,8 @@ npm run test
 ```
 
 
+## Example repository
+
 *Please refer to the following repository as an example.  
 https://github.com/hand-dot/my-site-31
 
