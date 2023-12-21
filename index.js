@@ -7,7 +7,7 @@ const NAVIGATION_TIMEOUT = 30000;
  * @typedef {import('puppeteer').Browser} Browser
  * @typedef {import('puppeteer').Page} Page
  */
-export class E2EDriver {
+class E2EDriver {
     /** @type {Browser} */
     #browser;
     /** @type {Page}*/
@@ -158,5 +158,8 @@ export class E2EDriver {
             );
         },
     };
-
 }
+
+module.exports = {
+    E2EDriver,
+};
