@@ -91,7 +91,7 @@ describe('E2EDriver Test', () => {
     const driver = new E2EDriver();
 
     beforeEach(async () => {
-        await driver.init({ baseUrl: 'https://kyoheif.editorx.io/my-site-31' });
+        await driver.init({ baseUrl: 'https://yourdomain.com' });
     }, 10000);
 
     afterEach(async () => {
@@ -107,9 +107,13 @@ describe('E2EDriver Test', () => {
 ```
 
 The test can be executed by running:
-
 ```
 npm run test
+```
+
+*If you are not loggedin, you need to run this wix login command
+```
+wix login
 ```
 
 
