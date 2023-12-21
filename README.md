@@ -82,7 +82,7 @@ Ultimately, your `package.json` should look like this:
 
 ## How to run
 
-If you have a test file(ex: e2e.test.js) like the one below:
+If you have a test file(ex: `e2e.test.js`) like the one below:
 
 ```javascript
 const { E2EDriver } = require('puppeteer-velo-test-kit');
