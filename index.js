@@ -85,11 +85,8 @@ class E2EDriver {
             const parsedURL = new URL((path === '' || path === '/') ? '' : path, this.baseUrl);
             url.pathname = parsedURL.pathname;
             url.search = parsedURL.search;
-            const setWixPreviewQueryParameters = process.env.SET_WIX_PREVIEW_QUERY_PARAMETERS === 'true';
-            if (setWixPreviewQueryParameters) {
-                url.searchParams.set('branchId', this.branchConfig.branchId);
-                url.searchParams.set('siteRevision', this.branchConfig.siteRevision);
-            }
+            url.searchParams.set('branchId', this.branchConfig.branchId);
+            url.searchParams.set('siteRevision', this.branchConfig.siteRevision);
             return url.href;
         },
     };
