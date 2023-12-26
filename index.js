@@ -129,6 +129,17 @@ class E2EDriver {
         waitFor: async (selector, options = { visible: true }) => {
             return this.page.waitForSelector(selector, options);
         },
+        /**
+         *  @param {string} selector
+         *  @param {import('puppeteer').WaitForSelectorOptions} options
+         */
+        waitForSelector: async (selector, options = { visible: true }) => {
+            return this.page.waitForSelector(selector, options);
+        },
+        pageIsReady: async () => {
+            // @ts-expect-error
+            return this.page.waitForFunction(() => window.qaApi?.siteIsReady());
+        },
     };
     // should return boolean
     is = {
