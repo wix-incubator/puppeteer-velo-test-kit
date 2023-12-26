@@ -9,11 +9,11 @@ const NAVIGATION_TIMEOUT = 30000;
  */
 class E2EDriver {
     /** @type {Browser} */
-    #browser;
+    browser;
     /** @type {Page}*/
     page;
     /** @type {{branchId: string; siteRevision: string}} */
-    #branchConfig;
+    branchConfig;
     /** @type {string} */
     baseUrl;
 
@@ -27,19 +27,19 @@ class E2EDriver {
     }
 
     async initPuppeteer() {
-        if (this.#browser) {
+        if (this.browser) {
             return;
         }
         const now = new Date();
         console.log('⌛ Initializing puppeteer...');
-        this.#browser = await puppeteer.launch({ headless: this.isDebug() ? false : 'new' });
-        this.page = await this.#browser.newPage();
+        this.browser = await puppeteer.launch({ headless: this.isDebug() ? false : 'new' });
+        this.page = await this.browser.newPage();
         const end = new Date() - now;
         console.log(`✅ Puppeteer initialized in ${end}ms`);
     }
 
     async initBranchConfig() {
-        if (this.#branchConfig) {
+        if (this.branchConfig) {
             return;
         }
 
@@ -60,9 +60,9 @@ class E2EDriver {
         } else {
             console.log(`✅ Using cached tests configs`);
         }
-        this.#branchConfig = testsConfig;
-        console.log(`🌐 Branch ID: ${this.#branchConfig.branchId}`);
-        console.log(`🌐 Site Revision: ${this.#branchConfig.siteRevision}`);
+        this.branchConfig = testsConfig;
+        console.log(`🌐 Branch ID: ${this.branchConfig.branchId}`);
+        console.log(`🌐 Site Revision: ${this.branchConfig.siteRevision}`);
         const end = new Date() - now;
         console.log(`✅ Branch config initialized in ${end}ms`);
     }
@@ -71,7 +71,7 @@ class E2EDriver {
         if (this.isDebug()) {
             console.log('not closing browser on debug mode');
         } else {
-            await this.#browser && this.#browser.close();
+            await this.browser && this.browser.close();
         }
     }
 
@@ -87,8 +87,8 @@ class E2EDriver {
             url.search = parsedURL.search;
             const setWixPreviewQueryParameters = process.env.SET_WIX_PREVIEW_QUERY_PARAMETERS === 'true';
             if (setWixPreviewQueryParameters) {
-                url.searchParams.set('branchId', this.#branchConfig.branchId);
-                url.searchParams.set('siteRevision', this.#branchConfig.siteRevision);
+                url.searchParams.set('branchId', this.branchConfig.branchId);
+                url.searchParams.set('siteRevision', this.branchConfig.siteRevision);
             }
             return url.href;
         },
