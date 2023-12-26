@@ -124,6 +124,13 @@ class E2EDriver {
             });
             return this.when.openDesktopPage(path, options);
         },
+        /**
+         *  @param {string} selector
+         *  @param {puppeteer.WaitForSelectorOptions} options
+         */
+        waitFor: async (selector, options = { visible: true }) => {
+            return this.page.waitForSelector(selector, options);
+        },
     };
     // should return boolean
     is = {
@@ -139,9 +146,19 @@ class E2EDriver {
                 return false;
             }
         },
+        /**
+         * @param {string} selector
+         * @returns {Promise<boolean>}
+         */
+        focused: async (selector) => {
+            return this.page.$eval(selector, (element) => element === document.activeElement);
+        },
     };
 
     get = {
+        title: () => {
+            return this.page.title();
+        },
         /** @param {string} selector */
         textContent: async (selector) => {
             return this.page.$eval(selector, (el) => el.textContent);
