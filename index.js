@@ -72,6 +72,7 @@ class E2EDriver {
             console.log('not closing browser on debug mode');
         } else {
             await this.browser && this.browser.close();
+            this.browser = null;
         }
     }
 
